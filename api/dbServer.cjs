@@ -31,8 +31,14 @@ app.use(express.json());
 
 app.post("/createUser", async (req, res) => {
  
- const user = req.body.name;
- const hashedPassword = await bcrypt.hash(req.body.password, 10);
+ const user = req.body.name; //to make a json post request you will use name
+ const hashedPassword = await bcrypt.hash(req.body.password, 10);//to make a json post request you will use pasword
+ /*example:
+   {
+    "name":"userrrr",
+    "password":"passs"
+}
+ */
 
  db.getConnection(async (err, connection) => {
    
@@ -93,6 +99,36 @@ app.post("/login", (req,res)=>{
         }
       }
     })
+  })
+})
+app.post("/createpost" ,async(req,res)=>{
+     const postTitle = req.body.title
+     const postText = req.body.content
+  db.getConnection(async (err, connection) =>{
+
+    const sqlInsert = "INSERT INTO post VALUES (0,?,?)"
+    const insert_query = mysql.format(sqlInsert, [postTitle , postText]);
+
+
+    if (postText.length === 0) {
+     
+      console.log("-------> You need to add some content to the post");
+      
+    }
+
+    if (postTitle.length === 0) {
+     
+      console.log("-------> You need to add a title");
+     
+    }if (postText.length && postTitle.length >= 1) {
+
+    await connection.query(insert_query, (err, result) => {
+      connection.release();
+      if (err) throw err;
+      console.log(result.insertId);
+      console.log("Your post was created!!!")
+});
+    }
   })
 })
 
