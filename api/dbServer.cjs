@@ -3,6 +3,7 @@
 const express = require("express");
 const app = express();
 const mysql = require("mysql");
+const cors = require("cors")
 
 require("dotenv").config();
 const DB_HOST = process.env.DB_HOST;
@@ -26,13 +27,15 @@ db.getConnection((err, connection) =>{
     console.log("Connected!");
     
 })
-const bcrypt = require("bcrypt");
 app.use(express.json());
+app.use(cors({ 
+origin: ['http://localhost:5173'],
+credentials: true,}));
 
 app.post("/createUser", async (req, res) => {
  
  const user = req.body.name; //to make a json post request you will use name
- const hashedPassword = await bcrypt.hash(req.body.password, 10);//to make a json post request you will use pasword
+ const password = req.body.password;//to make a json post request you will use pasword
  /*example:
    {
     "name":"userrrr",
@@ -48,7 +51,7 @@ app.post("/createUser", async (req, res) => {
    const search_query = mysql.format(sqlSearch, [user]);
 
    const sqlInsert = "INSERT INTO userTable VALUES (0,?,?)";
-   const insert_query = mysql.format(sqlInsert, [ user, hashedPassword]);
+   const insert_query = mysql.format(sqlInsert, [ user, password]);
 
    await connection.query(search_query, async (err, result) => {
 
@@ -89,7 +92,7 @@ app.post("/login", (req,res)=>{
       }else {
         const hashedPassword = result[0].password
 
-        if (await bcrypt.compare(password, hashedPassword)){
+        if (await compare(password, password)){
           console.log("-------> Login Sucesfully")
           res.send(`${user} is logged in!`)
         }
