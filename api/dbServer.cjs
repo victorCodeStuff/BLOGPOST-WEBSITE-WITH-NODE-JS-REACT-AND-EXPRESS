@@ -29,7 +29,7 @@ db.getConnection((err, connection) =>{
 })
 app.use(express.json());
 app.use(cors({ 
-origin: ['http://localhost:5173'],
+origin: ['http://localhost:5173'], // this is necessary because tells to the cors what is the orgin of the request
 credentials: true,}));
 
 app.post("/createUser", async (req, res) => {
