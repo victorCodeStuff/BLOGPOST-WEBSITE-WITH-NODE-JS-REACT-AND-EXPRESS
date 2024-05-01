@@ -11,9 +11,17 @@ function Createuser() {
       name,
       password,
     };
-    console.log(name + password)
-    axios.post("http://localhost:3000/createUser", userData)
-      
+    if ( password.length && name.length >= 1){
+      console.log(name + password)
+      axios.post("http://localhost:3000/createUser", userData)  
+    }
+
+  if (name.length === 0 ){
+    console.log("You need to add a Name to create a user")
+  }
+  if (password.length === 0 ){
+    console.log("You need to add a Password to create a user")
+  }
   }
 
 
