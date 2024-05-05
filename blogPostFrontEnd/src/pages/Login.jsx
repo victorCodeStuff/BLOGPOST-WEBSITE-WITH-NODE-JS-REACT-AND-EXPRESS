@@ -10,17 +10,14 @@ function Login() {
     password: loginUserPassword 
    }
    console.log(logReq.password)
-    axios.post("http://localhost:3000/login", logReq).then(response =>{
-      console.log("Response from server:", response.data)
-     
-      if (response.data == true){
-        console.log("Its working, i guess")
-
-      }
-    })
-  
-  
-  }
+   axios.post("http://localhost:3000/login", logReq).then(response =>{
+    console.log("Response from server:", response.data)
+    
+    if (response.data == true){
+      console.log("Its working, i guess")
+    }
+  })
+}
   
   return <>
   <div id="inputfield">

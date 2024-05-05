@@ -1,0 +1,27 @@
+.postsPage{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.postContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 60%;
+    border: 3px solid black;
+    border-radius: 5px;
+    padding: 10px;
+}
+.postTitle{
+    border-bottom: 3px solid black;
+}
+.postContent{
+    border-left: 3px solid black;
+}
+.postContainer > p{
+padding: 10px;    
+}

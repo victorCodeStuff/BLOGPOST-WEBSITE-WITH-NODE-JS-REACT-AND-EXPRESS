@@ -1,11 +1,16 @@
-
-import axios from "axios"
-
-
+import Posts from "../components/posts";
 
 function Home() {
-return (<>
+ 
 
+ 
+
+
+
+return (<>
+ <div>
+    <Posts/>
+    </div>
 
 </>)}
 
