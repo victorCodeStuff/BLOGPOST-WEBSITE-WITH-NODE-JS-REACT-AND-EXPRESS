@@ -35,6 +35,12 @@ const db = mysql.createPool({
   port: DB_PORT,
 });
 
+app.use(session({
+  secret:'secret-key',
+  resave: false,
+  saveUninitialized:false,
+}))
+
 db.getConnection((err, connection) => {
   if (err) throw err;
   console.log("Connected!");
@@ -98,7 +104,7 @@ app.post("/login", async (req, res) => {
 
 
   
-const userName = req.body.name;
+  const userName = req.body.name;
   const userPassword = req.body.password;
   
   db.getConnection(async (err, connection) => {
@@ -119,8 +125,9 @@ const userName = req.body.name;
         if (userName === userName && userPassword === password) {
           const sqlIdSearch = "SELECT userId FROM userTable WHERE user = ?";
           const sqlIdQuery = mysql.format(sqlIdSearch, [userName]);
-            
-          
+          req.session.isLoggedIn = true;
+          req.session.username = name
+          console.log(req.session.username)
           try {
           const results = await db.query(sqlIdQuery, (err, results) => {
               if (err) {
@@ -139,9 +146,8 @@ const userName = req.body.name;
                 
               );
               
-              res.json({tokenMessage: token ,idMessage: results[0].userId });
-           
-      
+              res.send({tokenMessage: token ,idMessage: results[0].userId, userStatus:true });
+        
             });
           } catch (error) {
             console.log("Error on the query", error);
@@ -180,6 +186,9 @@ app.post("/createpost", async (req, res) => {
   });
 });
 
+app.get('/', (req,res)=>{
+  const sessionData = req.session;
+})
 app.get("/posts", (req, res) => {
   db.query("SELECT * FROM userDB.post ", (err, results) => {
     if (err) throw err;

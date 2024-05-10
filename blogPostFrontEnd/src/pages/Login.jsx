@@ -1,34 +1,36 @@
 import axios from 'axios'
-import {  useState } from 'react';
+import {  useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom"
+
 function Login() {
 
+
   const [userLogged,setUserLogged] = useState(false)
+  const navigate = useNavigate();
+
+ 
 
   function logUser(event){
     event.preventDefault()
     const loginUserName = event.target.elements.loginUserName.value;
     const loginUserPassword = event.target.elements.loginUserPassword.value;
     console.log("Your name: " + loginUserName + "\nYour password: " + loginUserPassword)
-   
     const logReq = {
     name: loginUserName,
     password: loginUserPassword 
     }
   
-  
+   
    axios.post("http://localhost:3000/login", logReq)
    .then(response =>{
-    console.log( response.data)
-    
-    const finalId = response.data
-    if (response.data.sucess){
-      console.log("Login sucessfull")
+    console.log(response.data)
+    const userStatus = response.data.userStatus
+    setUserLogged(userStatus)
+    console.log("this is the status of login:",userStatus)
+    if(userStatus === true){
+      navigate("/dashboard")
+      console.log("sdfsdfdfsdfs")
     }
-    else if(finalId < "1"){
-      setUserLogged(false)
-      console.log(userLogged)
-    }
-    
   })
 }
   
@@ -48,7 +50,7 @@ function Login() {
     {userLogged ? (
       <p>Logout</p> // Content when active
     ) : (
-      <p>The element is not active.</p> // Content when not active
+      <p>Login</p> // Content when not active
     )}
     </button>
   </form>
