@@ -6,26 +6,31 @@ import Login from "./pages/Login"
 import DashBoard from "./pages/Dashboard"
 import './App.css'
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 function App() {
-const [userLogged, setUserLogged] = useState()
-//  //const [isMenuOpen, setIsMenuOpen] = useState(false);
-//  //const [isMobile, setIsMobile] = useState(window.innerWidth< 500)
- //useEffect(()=>{
- //  setUserLogged(user)
- //})
-//window.addEventListener("resize", controlResizing)
-axios.post("http://localhost:3000/login")
-   .then(response =>{
-    console.log( response.data)
-    
-    const finalId = response.data
-    if (finalId >= "1"){
-      console.log("fsdffsd")
-    
+const [userLogged, setUserLogged] = useState(false)
 
-    }})
+const logReq = {
+  name: "loginUserName",
+  password: "loginUserPassword "
+  }
+
+
+  axios.post("http://localhost:3000/login", logReq)
+  .then(response =>{
+   console.log(response.data)
+   const userStatus = response.data.userStatus
+   setUserLogged(userStatus)
+   console.log("this is the status of login:",userLogged)
+   if(userStatus === true){
+    
+     console.log("sdfsdfdfsdfs")
+   }
+ })
+
+
+  
 return (
   <>
   <BrowserRouter>
@@ -59,6 +64,7 @@ return (
       <Route path="/createpost" element={<Createpost/>}></Route>
       <Route path="/createuser" element={<Createuser/>}></Route>
       <Route path="/login" element={<Login/> }></Route>
+     
       <Route path="/dashboard" element={<DashBoard/> }></Route>
     </Routes>
   

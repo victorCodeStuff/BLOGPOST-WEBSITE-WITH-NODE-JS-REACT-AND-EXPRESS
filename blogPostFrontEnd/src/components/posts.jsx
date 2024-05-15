@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 import "../components/posts.css"
 function Posts() {
   const [posts, setPosts] = useState([]);
@@ -6,24 +7,16 @@ function Posts() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await fetch("http://localhost:3000/posts", {
-          method: "GET",
-        })
-          .then((response) => response.json() 
-          )
-          .then((jsonData) => setPosts(jsonData));
-       
-        // Log the actual data here
-      
+        const response = await axios.get('http://localhost:3000/posts');
+        setPosts(response.data); // Update state with fetched data
       } catch (error) {
-        console.error("Error fetching data:", error);
-      
+        console.error('Error fetching data:', error);
+        // display an error message to the user
       }
-      
     };
-
+  
     fetchData(); // Call the async function to perform the fetch
-  });
+  }, []);
 
   return (
     <>

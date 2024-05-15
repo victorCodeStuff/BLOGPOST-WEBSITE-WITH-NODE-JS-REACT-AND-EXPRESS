@@ -14,7 +14,7 @@ const DB_USER = process.env.DB_USER;
 const DB_PASSWORD = process.env.DB_PASSWORD;
 const DB_DATABASE = process.env.DB_DATABASE;
 const DB_PORT = process.env.DB_PORT;
-/*
+
 const sessionConfig = {
   secret: process.env.SESSION_SECRET,
   resave: false, 
@@ -25,7 +25,7 @@ const sessionConfig = {
     httpOnly : true
   }
 }
-*/
+
 const db = mysql.createPool({
   connectionLimit: 100,
   host: DB_HOST,
@@ -35,11 +35,7 @@ const db = mysql.createPool({
   port: DB_PORT,
 });
 
-app.use(session({
-  secret:'secret-key',
-  resave: false,
-  saveUninitialized:false,
-}))
+app.use(session(sessionConfig))
 
 db.getConnection((err, connection) => {
   if (err) throw err;
@@ -101,12 +97,13 @@ app.post("/createUser", async (req, res) => {
   });
 });
 app.post("/login", async (req, res) => {
-
-
-  
   const userName = req.body.name;
   const userPassword = req.body.password;
   
+function generateAcessToken (userName){
+  return jwt.sign({userName}, process.env.TOKEN_SECRET, {expiresIn:"1800s", })
+}
+
   db.getConnection(async (err, connection) => {
     if (err) throw err;
     const sqlSearch = "SELECT * FROM userTable WHERE user = ? AND password = ?";
@@ -114,7 +111,9 @@ app.post("/login", async (req, res) => {
 
     await connection.query(search_query, async (err, result) => {
       connection.release();
-      if (err) throw err;
+      if (err) {
+        throw err; 
+      }
 
       if (result.length == 0) {
         console.log("-------> Credentals are incorrect");
@@ -125,30 +124,26 @@ app.post("/login", async (req, res) => {
         if (userName === userName && userPassword === password) {
           const sqlIdSearch = "SELECT userId FROM userTable WHERE user = ?";
           const sqlIdQuery = mysql.format(sqlIdSearch, [userName]);
-          req.session.isLoggedIn = true;
-          req.session.username = name
-          console.log(req.session.username)
+          const user = { userName, password };
           try {
-          const results = await db.query(sqlIdQuery, (err, results) => {
+              const results = await db.query(sqlIdQuery, (err, results) => {
               if (err) {
-                return console.log("Error during the query");
+              return console.log("Error during the query");
               }
-              const payload = {
-                userId:result[0].userId,
-                username:userName
-              }
-              const jwtSecret = process.env.JWT_SECRET;
-              const token = jwt.sign(payload, jwtSecret, {expiresIn: '1h'})
-              
-              console.log(
-                "-------> Login Sucesfully, your user id is:",
-                JSON.stringify(results[0].userId)
-                
-              );
-              
-              res.send({tokenMessage: token ,idMessage: results[0].userId, userStatus:true });
-        
+           
+              const token = jwt.sign({userId: results[0].userId}, 'Your secret id', {expiresIn:'1h'})
+             
+              console.log("-------> Login Sucesfully, your user id is: ",JSON.stringify(results[0].userId)); 
+              console.log("User Token:",`${token}`)
+              res.json({
+                userName,
+                userPassword,
+                userToken: token,
+                idMessage: results[0].userId, 
+                userStatus:true,
+               });
             });
+           
           } catch (error) {
             console.log("Error on the query", error);
           }
@@ -186,9 +181,7 @@ app.post("/createpost", async (req, res) => {
   });
 });
 
-app.get('/', (req,res)=>{
-  const sessionData = req.session;
-})
+
 app.get("/posts", (req, res) => {
   db.query("SELECT * FROM userDB.post ", (err, results) => {
     if (err) throw err;

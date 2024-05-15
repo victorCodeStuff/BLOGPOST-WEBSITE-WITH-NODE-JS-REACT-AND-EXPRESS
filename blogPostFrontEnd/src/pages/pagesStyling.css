@@ -39,8 +39,39 @@
  
     resize: none;
 }
-.dashboardContainer{
-    width: 100px;
-    height: 100px;
+#dashboardContainer{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border: 3px solid black;
+    width: 90%;
+    height: 20%;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+#dashboardContainer > div {
+    height: 100%;
+}
+
+#dashboardContainer > div > button {
     background-color: black;
+    margin: 5px;
+    border-radius: 5px;
+    border: 3px solid black;
+    color: white;
+}
+#dashboardContainer > div > button:hover {
+    cursor: pointer;
+}
+#userNameDash, #userPassword{
+    border: 3px solid black;
+    margin: 5px;
+    border-radius: 5px;
+    height: 40px;
+}
+#userNameDash > p, #userPassword > p {
+    margin: 0px
 }

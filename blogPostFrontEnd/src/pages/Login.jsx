@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {  useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from "react-router-dom"
 
 function Login() {
@@ -26,14 +26,24 @@ function Login() {
     console.log(response.data)
     const userStatus = response.data.userStatus
     setUserLogged(userStatus)
-    console.log("this is the status of login:",userStatus)
+    console.log("this is the status of login:",userLogged)
     if(userStatus === true){
       navigate("/dashboard")
-      console.log("sdfsdfdfsdfs")
+      
     }
-  })
+    if (response.data.userToken){
+      localStorage.setItem("user", JSON.stringify(response.data))
+         console.log(response.data.userToken)
+         let token = response.data.userToken
+         localStorage.setItem("Token","Bearer " + token)
+         axios.defaults.headers.common['Authorization'] = loginUserName + token;
+    
+     return response.data
+  }
+  return response.data
+})
 }
-  
+ 
   return <>
   <div id="inputfield">
   
@@ -47,11 +57,9 @@ function Login() {
 
     </input>
     <button type="submit">
-    {userLogged ? (
-      <p>Logout</p> // Content when active
-    ) : (
-      <p>Login</p> // Content when not active
-    )}
+   
+      <p>Login</p> 
+  
     </button>
   </form>
 </div>
