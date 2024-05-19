@@ -1,4 +1,5 @@
-import {Link , Routes , Route, BrowserRouter} from "react-router-dom"
+import { Routes , Route, BrowserRouter} from "react-router-dom"
+import NavBar from "./components/Navbar"
 import Home from "./pages/Home"
 import Createpost from "./pages/Createpost"
 import Createuser from "./pages/Createuser"
@@ -34,30 +35,7 @@ const logReq = {
 return (
   <>
   <BrowserRouter>
-  <nav >
-    <ul id="nav">
-      <li>
-        <Link to="./">
-          HOME
-        </Link>
-      </li>
-      <li>
-        <Link to="/createpost">
-          CREATE A NEW POST
-        </Link>
-      </li>
-      <li>
-        <Link to="/createuser">
-          CREATE A USER
-        </Link>
-      </li>
-      <li>
-        <Link to="/login">
-         Login
-        </Link>
-      </li>
-    </ul>
-  </nav>
+  <NavBar/>
   <div id="pagesContainer">
     <Routes>
       <Route path="/" element={<Home/>}></Route>

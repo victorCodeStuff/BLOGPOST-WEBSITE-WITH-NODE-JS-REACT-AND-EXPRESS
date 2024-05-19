@@ -12,7 +12,7 @@ function Createuser() {
       password,
     };
     if ( password.length && name.length >= 1){
-      console.log(name + password)
+      
       axios.post("http://localhost:3000/createUser", userData)  
     }
 
@@ -26,7 +26,7 @@ function Createuser() {
 
 
   return (  <>
-      <div id="inputfield">
+      <div className="inputfield">
         <form onSubmit={newUser} >
           <label>USER NAME</label>
           <input className="createuserform"  id="name" type="text"></input>

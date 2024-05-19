@@ -1,11 +1,10 @@
 
 import "./pagesStyling.css"
-import { useState } from "react"
+
 import { useNavigate } from "react-router-dom"
 
 function DashBoard() {
-const [user, setUser]= useState()
-const [password, setPassword] = useState()
+
 const navigate = useNavigate()
 
 let userData = JSON.parse(localStorage.getItem('user'))
@@ -14,7 +13,7 @@ let userData = JSON.parse(localStorage.getItem('user'))
   function removeUser (){
    localStorage.removeItem("Token")
    localStorage.removeItem("user")
-   setUser(null)
+  
    navigate("/")
   }
      

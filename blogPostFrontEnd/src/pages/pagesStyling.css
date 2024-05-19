@@ -1,31 +1,14 @@
-#inputfield{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
+html {
+
 }
-
-
-#createpostform,#postTitle,#textAreaPost{
-    width: 400px;
-    border: 3px solid black;    
+form {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
     display: flex;
-    border-radius: 7px;
-    justify-content: space-between;
-    }
-    label {
-        font-weight: 600;
-    }
-
-    .createuserform{
-        width: 200px;
-        display: flex;
-        border: 3px solid black;
-        border-radius: 5px;
-
-    }
-
-    form > button{
+    text-align: left;
+}
+form > button{
         font-weight: 700;
         width: 100%;
         margin-top: 10px;
@@ -34,19 +17,20 @@
         border-radius: 5px;
         cursor: pointer;
     }
-#textAreaPost {
-    height: 200px;
- 
-    resize: none;
+    label{
+        font-weight: 500;
+    }
+.inputfield,#dashboardContainer{
+    position: absolute;
+    top:25vh;
+    left: 50%;
+    transform:translate(-50%);
 }
 #dashboardContainer{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
+    
     border: 3px solid black;
     width: 90%;
-    height: 20%;
+  
     border-radius: 5px;
     display: flex;
     flex-direction: column;
@@ -74,4 +58,15 @@
 }
 #userNameDash > p, #userPassword > p {
     margin: 0px
+}
+@media only screen and (max-width : 500px) {
+    .inputfield{
+        width: 90%;
+    }
+    li{
+        width: 80px;
+        font-size: 10px;
+        align-items: center;
+        text-align: center;
+    }
 }

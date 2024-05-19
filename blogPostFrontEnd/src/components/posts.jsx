@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import "../components/posts.css"
+import "../components/components.css"
 function Posts() {
   const [posts, setPosts] = useState([]);
 
@@ -8,10 +8,11 @@ function Posts() {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:3000/posts');
-        setPosts(response.data); // Update state with fetched data
+        //Update state with fetched data
+        setPosts(response.data); 
       } catch (error) {
+        //display an error message to the user
         console.error('Error fetching data:', error);
-        // display an error message to the user
       }
     };
   
@@ -24,7 +25,9 @@ function Posts() {
         {posts.map((item) => (
           <div className="postContainer" key={item.postId}>
             <h2 className="postTitle"> {item.postTitle}</h2>
-            <p className="postContent">{item.postText}</p>
+            <p style={{
+            wordBreak: "break-all"
+            }} className="postContent">{item.postText}</p>
           </div>
         ))}
       </div>

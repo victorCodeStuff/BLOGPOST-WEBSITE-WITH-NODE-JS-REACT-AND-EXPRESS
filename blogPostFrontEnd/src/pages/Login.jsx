@@ -1,11 +1,11 @@
 import axios from 'axios'
-import { useState } from 'react';
+
 import { useNavigate } from "react-router-dom"
 
 function Login() {
 
 
-  const [userLogged,setUserLogged] = useState(false)
+  
   const navigate = useNavigate();
 
  
@@ -25,16 +25,17 @@ function Login() {
    .then(response =>{
     console.log(response.data)
     const userStatus = response.data.userStatus
-    setUserLogged(userStatus)
-    console.log("this is the status of login:",userLogged)
-    if(userStatus === true){
+    
+    console.log("this is the status of login:",userStatus)
+    if(userStatus=== true){
       navigate("/dashboard")
       
     }
     if (response.data.userToken){
+      
+      //storing the user and the user password in the local storage
       localStorage.setItem("user", JSON.stringify(response.data))
-         console.log(response.data.userToken)
-         let token = response.data.userToken
+      let token = response.data.userToken
          localStorage.setItem("Token","Bearer " + token)
          axios.defaults.headers.common['Authorization'] = loginUserName + token;
     
@@ -45,7 +46,7 @@ function Login() {
 }
  
   return <>
-  <div id="inputfield">
+  <div className="inputfield">
   
   <form onSubmit={logUser} >
    <label>YOUR NAME</label>

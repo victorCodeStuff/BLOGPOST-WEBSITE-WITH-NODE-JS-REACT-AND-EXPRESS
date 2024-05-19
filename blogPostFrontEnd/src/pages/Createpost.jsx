@@ -22,7 +22,7 @@ function Createpost() {
   }
 }
  return <>
-  <div id="inputfield">
+  <div className="inputfield">
   
     <form onSubmit={CreateNewPost}>
      <label>TITLE FOR YOUR POST</label>

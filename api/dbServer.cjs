@@ -2,8 +2,6 @@ const express = require("express");
 const app = express();
 const mysql = require("mysql");
 const cors = require("cors");
-const bodyParser = require ('body-parser')
-const session = require('express-session');
 const jwt = require('jsonwebtoken')
 
 
@@ -15,17 +13,7 @@ const DB_PASSWORD = process.env.DB_PASSWORD;
 const DB_DATABASE = process.env.DB_DATABASE;
 const DB_PORT = process.env.DB_PORT;
 
-const sessionConfig = {
-  secret: process.env.SESSION_SECRET,
-  resave: false, 
-  saveUninitialized: true,
-  cookie:{
-    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-    maxAge:1000 * 60 * 60 * 24 * 7,
-    httpOnly : true
-  }
-}
-
+//Database config
 const db = mysql.createPool({
   connectionLimit: 100,
   host: DB_HOST,
@@ -34,30 +22,25 @@ const db = mysql.createPool({
   database: DB_DATABASE,
   port: DB_PORT,
 });
+//Database config
 
-app.use(session(sessionConfig))
-
+// error handling fot the Database 
 db.getConnection((err, connection) => {
   if (err) throw err;
   console.log("Connected!");
 });
+
+//express middleware function 
 app.use(express.json());
 
+//cors middleware and his config
 app.use( cors({
-    origin: ["http://localhost:5173"], // this is necessary because tells to the cors what is the orgin of the request
-    credentials: true,
+  // this is necessary because tells to the cors what is the origin of the request
+  origin: ["http://localhost:5173"], 
+  credentials: true,
   })
 );
-
-
-
-
-
-/*
-app.use(session(sessionConfig))
-*/
-app.use(bodyParser.json())
-
+//Post request to create new users
 app.post("/createUser", async (req, res) => {
   const user = req.body.name; //to make a json post request you will use name
   const password = req.body.password; //to make a json post request you will use pasword
@@ -85,7 +68,7 @@ app.post("/createUser", async (req, res) => {
       if (result.length != 0) {
         connection.release();
         console.log("-------> User already exists");
-        res.sendStatus(409);
+        
       } else
         await connection.query(insert_query, (err, result) => {
           connection.release();
@@ -96,16 +79,22 @@ app.post("/createUser", async (req, res) => {
     });
   });
 });
+//Post request of login
 app.post("/login", async (req, res) => {
+  /* the post request in the login page will send a 
+  json request with the "name" and the "password"
+  example:
+    {
+      "name":"exampleName",
+      "password": "examplePassword"
+     }
+  */
   const userName = req.body.name;
   const userPassword = req.body.password;
-  
-function generateAcessToken (userName){
-  return jwt.sign({userName}, process.env.TOKEN_SECRET, {expiresIn:"1800s", })
-}
 
   db.getConnection(async (err, connection) => {
     if (err) throw err;
+    //Selecting the user that has equal name and password in the DATABASE
     const sqlSearch = "SELECT * FROM userTable WHERE user = ? AND password = ?";
     const search_query = mysql.format(sqlSearch, [userName, userPassword])
 
@@ -114,13 +103,15 @@ function generateAcessToken (userName){
       if (err) {
         throw err; 
       }
-
+      //If wasn't found that the credential match will give a ERROR
       if (result.length == 0) {
         console.log("-------> Credentals are incorrect");
+      
       } else {
         const password = result[0].password;
         const name = result[0].name;
-
+      
+        //Authentication
         if (userName === userName && userPassword === password) {
           const sqlIdSearch = "SELECT userId FROM userTable WHERE user = ?";
           const sqlIdQuery = mysql.format(sqlIdSearch, [userName]);
@@ -156,6 +147,7 @@ function generateAcessToken (userName){
     });
   });
 });
+//Post request to create new posts
 app.post("/createpost", async (req, res) => {
   const postTitle = req.body.title;
   const postText = req.body.content;
@@ -170,9 +162,9 @@ app.post("/createpost", async (req, res) => {
     if (postTitle.length === 0) {
       console.log("-------> You need to add a title");
     }
-    if (postText.length && postTitle.length >= 1) {
+    else {
       await connection.query(insert_query, (err, result) => {
-        connection.release();
+        
         if (err) throw err;
         console.log(result.insertId);
         console.log("Your post was created!!!");
@@ -181,15 +173,14 @@ app.post("/createpost", async (req, res) => {
   });
 });
 
-
+//get request to show posts in the home page
 app.get("/posts", (req, res) => {
   db.query("SELECT * FROM userDB.post ", (err, results) => {
     if (err) throw err;
-    res.json(results);
-    console.log(results);
+    res.json(results); // converting the post to json
   });
 });
 
-const port = process.env.PORT;
+const port = process.env.PORT; 
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
