@@ -17,3 +17,7 @@
     margin-bottom: 10px;
     background-color: rgb(255, 255, 255);
    }
+   button > p {
+      font-size: 20px;
+   margin: 0px; 
+color: rgb(255, 255, 255);  }

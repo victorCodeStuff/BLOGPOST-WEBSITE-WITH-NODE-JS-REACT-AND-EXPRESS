@@ -46,24 +46,28 @@ function Login() {
 }
  
   return <>
-  <div className="inputfield">
-  
+  <div className="inputfield loginField">
+  <h1>
+    LOGIN
+  </h1>
   <form onSubmit={logUser} >
-   <label>YOUR NAME</label>
-    <input htmlFor="loginUserName" id="loginUserName" className="createuserform" type="text">
+
+    <input placeholder='YOUR NAME' htmlFor="loginUserName" id="loginUserName" className="createuserform" type="text">
 
     </input>
-    <label>YOUR PASSWORD</label>
-       <input htmlFor="loginUserPassword" id="loginUserPassword" className="createuserform" type="text">
-
-    </input>
-    <button type="submit">
    
-      <p>Login</p> 
+       <input placeholder='YOUR PASSWORD' htmlFor="loginUserPassword" id="loginUserPassword" className="createuserform" type="text">
+
+    </input>
+    <button className="loginButton" type="submit">
+   
+      <p>LOGIN</p> 
   
     </button>
   </form>
+  
 </div>
+
 </>
 }
 

@@ -22,19 +22,21 @@ function Createpost() {
   }
 }
  return <>
-  <div className="inputfield">
-  
+  <div className="inputfield postField">
+  <h1 >CREATE POST</h1>
     <form onSubmit={CreateNewPost}>
-     <label>TITLE FOR YOUR POST</label>
+     <label>WHAT WILL BE YOU TITLE?</label>
       <input id="postTitle" type="text">
 
       </input>
-      <label>CONTENT OF YOUR POST</label>
+      <label>ABOUT WHAT YOU WILL WRITE?</label>
       <textarea id="textAreaPost">
         
       </textarea>
-      <button>
-      POST!
+      <button className="postButton">
+        <p>
+         POST!
+        </p>
     </button>
     </form>
   </div>

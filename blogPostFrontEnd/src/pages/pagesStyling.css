@@ -25,39 +25,122 @@ form > button{
     top:25vh;
     left: 50%;
     transform:translate(-50%);
-}
-#dashboardContainer{
-    
-    border: 3px solid black;
-    width: 90%;
-  
+    border:  3px solid black;
     border-radius: 5px;
+}
+.postField {
+    width: 90%;
+   
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+    max-width: 540px;
 }
-#dashboardContainer > div {
-    height: 100%;
+.postField > h1 {
+    margin: 0; 
+    font-size: 25px;
+}
+.postField > form{
+    margin-top: 20px;
+}
+.postField > form > label{
+   width: 100%;
+   font-size: 10px;
+   font-weight: 600;
+}
+.postButton {
+    background-color: black;
+    height: 50px;
+    color: white;
+    font-size: 30px;
 }
 
-#dashboardContainer > div > button {
+.loginField{
+    text-align: center;
+    max-width: 500px;
+}
+.loginField> h1{
+    margin: 20px 0px 30px 0px;
+}
+
+.loginField > form {
+    gap: 15px;
+}
+.loginField > form > input{
+    height: 30px;
+
+}
+.loginButton {
+    width: 100%;
+    text-align: center;
     background-color: black;
-    margin: 5px;
-    border-radius: 5px;
+} 
+.loginButton > p{
+   
+   margin: 0;
+   width: 100%;
+   color: white;
+}
+
+.newUserField{
+    max-width: 500px;
+   
+    display: flex;
+}
+.newUserField > form  {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.newUserField > form > input {
+    height: 30px;
+}
+
+.newUserField > form > button {
+    background-color: black;
+    color: white;
+    font-size: 20px;
+    height: 40px;
+}
+form > ::placeholder {
+    font-weight: 700;
+    color: black;
+    padding: 10px;
+}
+#dashboardContainer{
+    padding: 10px;
     border: 3px solid black;
+    max-width: 500px;
+    width: 90%;
+    gap: 10px;
+
+    display: flex;
+    flex-direction: column;
+    
+}
+
+
+#dashboardContainer > button{
+    width: 100%;
+    border: 3px solid black;
+    border-radius: 5px;
+    background-color: black;
     color: white;
 }
-#dashboardContainer > div > button:hover {
+
+#dashboardContainer > button:hover {
     cursor: pointer;
 }
 #userNameDash, #userPassword{
     border: 3px solid black;
-    margin: 5px;
+   
     border-radius: 5px;
-    height: 40px;
+    padding: 10px;
 }
 #userNameDash > p, #userPassword > p {
-    margin: 0px
+    margin:0px;
+    font-weight: 600;
 }
 @media only screen and (max-width : 500px) {
     .inputfield{

@@ -21,19 +21,27 @@ let userData = JSON.parse(localStorage.getItem('user'))
   
 return (<>
   <div id='dashboardContainer'>
-    <div>
+
+      <h1>
+        USER INFO
+      </h1>
       <div id='userNameDash'>
-          Your username is:{JSON.stringify(userData.userName)}
+        <p>
+          Your username is:{(userData.userName)}
+        </p>
       </div>
          
       <div id='userPassword'>
-      Your password is:{JSON.stringify(userData.userPassword)}
-      </div>
-    <button onClick={removeUser}>
-      Logout
-    </button>
-   
+        <p>
+      Your password is:{(userData.userPassword)}
+        </p>   
     </div>
+    <button onClick={removeUser}>
+      <p>
+      LOGOUT
+      </p>
+    </button>
+
   </div>
   </>
 

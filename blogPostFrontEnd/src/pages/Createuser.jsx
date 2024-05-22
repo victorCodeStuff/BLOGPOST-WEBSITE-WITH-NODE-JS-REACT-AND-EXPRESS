@@ -26,14 +26,19 @@ function Createuser() {
 
 
   return (  <>
-      <div className="inputfield">
+      <div className="inputfield newUserField">
         <form onSubmit={newUser} >
-          <label>USER NAME</label>
-          <input className="createuserform"  id="name" type="text"></input>
-          <label>PASSWORD</label>
-          <input className="createuserform"    id="password" type="text"></input>
+          <h1>
+            NEW USER
+          </h1>
+    
+          <input placeholder="USER NAME" className="createuserform"  id="name" type="text"></input>
+       
+          <input placeholder="PASSWORD" className="createuserform"    id="password" type="text"></input>
           <button type="submit">
+            <p>
             CREATE
+            </p>
           </button>
         </form>
       </div>

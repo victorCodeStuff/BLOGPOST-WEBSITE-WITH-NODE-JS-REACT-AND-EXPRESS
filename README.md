@@ -17,7 +17,7 @@
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
 ### How to Run This Project on Your Machine?
-1. [Set up you mySQL DB](#setting-up-the-mysql-database)
+1. [Set up your mySQL DB](#setting-up-the-mysql-database)
 
 2. Navigate to the `api` and `blogPostFrontEnd` directories.
 3. In each directory, run the following commands:
